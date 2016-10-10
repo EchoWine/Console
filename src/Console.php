@@ -11,7 +11,7 @@ class Console{
 	}
 
 	public static function getCommand($name){
-		foreach(self::$commands as $command){
+		foreach((array)self::$commands as $command){
 			if($command::$signature == $name)
 				return $command;
 		}
