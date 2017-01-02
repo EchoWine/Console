@@ -4,6 +4,7 @@ namespace CoreWine\Console;
 
 class Console{
 
+	public static $drive;
 	public static $commands;
 
 	public static function addCommand($class){
@@ -21,6 +22,8 @@ class Console{
 		
 	}
 
+
+
 	public function exec($argv){
 		array_shift($argv);
 		$command = self::getCommand($argv[0]);
@@ -28,10 +31,24 @@ class Console{
 		if($command){
 
 			$command = new $command($argv);
+			$command -> setConsole($this);
 			$command -> handle();
 		}else{
 			echo "unknow command";
 		}
+	}
+
+	public static function setDrive($drive){
+		self::$drive = $drive;
+	}
+
+	public function call($command){
+		echo "php ".drive()."app/console {$command}";
+		exec("php ".drive()."app/console {$command}");
+	}
+
+	public function callScript($command){
+		exec("bash ".drive().$command);
 	}
 
 }
